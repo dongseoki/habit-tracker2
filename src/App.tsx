@@ -2,12 +2,19 @@ import { useState } from 'react'
 import './App.css'
 
 const daysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-const dates = Array.from({ length: 31 }, (_, i) => i + 1);
 
 const MainPage = () => {
   const today = new Date();
   const year = today.getFullYear();
   const month = today.toLocaleString('default', { month: 'long' });
+
+  // Get the first day of the month
+  const firstDayOfMonth = new Date(year, today.getMonth(), 1).getDay();
+  const daysInMonth = new Date(year, today.getMonth() + 1, 0).getDate();
+
+  // Create an array to represent the dates in the calendar
+  const calendarDates = Array.from({ length: daysInMonth }, (_, i) => i + 1);
+
   return (
     <div className="max-w-md mx-auto bg-gray-900 text-white p-4 rounded-lg">
       {/* Header */}
@@ -24,7 +31,11 @@ const MainPage = () => {
             {day.substring(0, 3)}
           </div>
         ))}
-        {dates.map((date) => (
+        {/* Empty cells for days before the first day of the month */}
+        {Array.from({ length: firstDayOfMonth }).map((_, index) => (
+          <div key={`empty-${index}`} className="p-4 border rounded bg-gray-800 text-lg font-bold"></div>
+        ))}
+        {calendarDates.map((date) => (
           <div key={date} className="p-4 border rounded bg-gray-800 text-lg font-bold">
             {date}
           </div>
