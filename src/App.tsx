@@ -9,7 +9,7 @@ const daysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Fri
 const MainPage = () => {
   const [currentDate, setCurrentDate] = useState(new Date());
   const year = currentDate.getFullYear();
-  const month = currentDate.toLocaleString('default', { month: 'long' });
+  const month = currentDate.getMonth() + 1;
 
   // Get the first day of the month
   const firstDayOfMonth = new Date(year, currentDate.getMonth(), 1).getDay();
@@ -28,12 +28,12 @@ const MainPage = () => {
 
   return (
     <div className="max-w-md mx-auto bg-gray-900 text-white p-4 rounded-lg">
-      <Header year={year} month={month} />
+      <Header year={year} month={currentDate.toLocaleString('default', { month: 'long' })} />
       <div className="flex justify-between mb-4">
         <button onClick={handlePrevMonth} className="p-2 bg-gray-700 rounded-lg">Previous</button>
         <button onClick={handleNextMonth} className="p-2 bg-gray-700 rounded-lg">Next</button>
       </div>
-      <Calendar daysOfWeek={daysOfWeek} firstDayOfMonth={firstDayOfMonth} calendarDates={calendarDates} />
+      <Calendar daysOfWeek={daysOfWeek} firstDayOfMonth={firstDayOfMonth} calendarDates={calendarDates} year={year} month={month} />
       <BottomNavigation />
     </div>
   );
